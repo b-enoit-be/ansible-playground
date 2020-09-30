@@ -30,3 +30,8 @@ docker run -ti --entrypoint ash benoitbe/ansible-playground
 ````
 docker run -ti --entrypoint ansible benoitbe/ansible-playground --inventory inventory.yml all -a 'echo "Hello world!"'
 ```
+
+* To rebuild it:
+``` 
+docker build . --tag benoitbe/ansible-playground
+```
