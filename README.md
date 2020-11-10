@@ -23,11 +23,17 @@ docker run -ti -v $PWD:/usr/local/ansible benoitbe/ansible-playground --inventor
 
 ```
 docker run -ti --entrypoint ash benoitbe/ansible-playground
-````
+```
+
+* In order to jump into the container, with your files mounted
+
+```
+docker run -ti -v $PWD:/usr/local/ansible --entrypoint ash benoitbe/ansible-playground
+```
 
 * In order to run an ad-hoc command
 
-````
+```
 docker run -ti --entrypoint ansible benoitbe/ansible-playground --inventory inventory.yml all -a 'echo "Hello world!"'
 ```
 
