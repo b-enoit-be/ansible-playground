@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  ansible:
+    build: control-node
+    image: benoitbe/ansible-control-node
+    volumes: 
+      - ./control-node:/usr/local/ansible
+      - ssh_keys:/root/.ssh
+    entrypoint: tail -f /dev/null
+
+  node1:
+    build: managed-node
+    container_name: node1
+    image: benoitbe/ansible-managed-node
+    volumes:
+      - ssh_keys:/etc/ssh
+
+  node2:
+    build: managed-node
+    container_name: node2
+    image: benoitbe/ansible-managed-node
+    volumes:
+      - ssh_keys:/etc/ssh
+
+  node3:
+    build: managed-node
+    container_name: node3
+    image: benoitbe/ansible-managed-node
+    volumes:
+      - ssh_keys:/etc/ssh
+    
+volumes:
+  ssh_keys:
