@@ -7,9 +7,9 @@ all:
     localhost:
       ansible_connection: local
 
-  children:
-    nodes:
-      hosts:
-        node1:
-        node2:
-        node3:
+  # children:
+  #   nodes:
+  #     hosts:
+  #       node1:
+  #       node2:
+  #       node3:
