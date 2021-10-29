@@ -10,7 +10,7 @@ COPY ansible.cfg /etc/ansible/ansible.cfg
 RUN apk add --no-cache \
         ansible \
         py3-jmespath \
-    && echo "ansible-playbook play.yml -i inventory.yml" > /root/.ash_history
+    && echo "ansible-playbook play.yml" > /root/.ash_history
         
 ENTRYPOINT ["ansible-playbook"]
-CMD ["play.yml", "-i", "inventory.yml"]
+CMD ["play.yml"]
