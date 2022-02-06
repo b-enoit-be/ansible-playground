@@ -14,6 +14,8 @@ RUN apk add --no-cache \
         python3-dev \
     && pip install \
         ansible \
+        docker \
+        docker-compose \
         jmespath \
     && apk del _build-dependencies \
     && echo "ansible-playbook play.yml" > /root/.ash_history
