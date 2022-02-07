@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - community.general.docker_host_info:
+        containers: yes
+        containers_filters:
+          label:
+            - ansible=node
+      register: docker
+
+    - community.docker.docker_container:
+        name: "{{ item.Id }}"
+        state: absent
+      loop: "{{ docker.containers }}"
+      loop_control:
+        label: "{{ item.Names.0[1:] }}"

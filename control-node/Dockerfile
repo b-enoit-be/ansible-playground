@@ -1,5 +1,6 @@
 FROM python:alpine
 LABEL maintainer="Benoît Geeraerts [https://b.enoit.be]"
+LABEL ansible=controller
 
 WORKDIR /usr/local/ansible
 
@@ -18,7 +19,9 @@ RUN apk add --no-cache \
         docker-compose \
         jmespath \
     && apk del _build-dependencies \
-    && echo "ansible-playbook play.yml" > /root/.ash_history
+    && echo "ansible-inventory --graph" > /root/.ash_history \
+    && echo "ansible-playbook managed-node/create.yml" >> /root/.ash_history \
+    && echo "ansible-playbook play.yml" >> /root/.ash_history
         
 ENTRYPOINT ["ansible-playbook"]
 CMD ["play.yml"]

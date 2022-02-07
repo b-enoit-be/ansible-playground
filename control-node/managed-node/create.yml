@@ -1,7 +1,8 @@
 - hosts: localhost
   gather_facts: no
+  
   tasks:
-    - set_fact:
+    - ansible.builtin.set_fact:
         containers: >-
           {{ 
             containers 
@@ -10,12 +11,11 @@
             }}
       loop: >-
         {{ 
-          nodes 
-            | default(['node1', 'node2', 'node3']) 
+          (nodes | default('node1,node2,node3')).split(',')      
         }}
       vars:
         managed_node:
-          build: "{{ playbook_dir }}/managed-node"
+          build: "{{ playbook_dir }}"
           container_name: "{{ item }}"
           image: benoitbe/ansible-managed-node
           volumes:
@@ -27,16 +27,13 @@
           {{ 
             definition 
               | combine({'services': containers}) 
-          }}
-      
+          }}   
       vars:
         definition: 
           version: '3'
-
           volumes:
             ansible_playground_ssh_keys:
               name: ansible_playground_ssh_keys
-
           networks:
             default:
               name: ansible_playground

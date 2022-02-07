@@ -1,4 +1,6 @@
 FROM alpine
+LABEL maintainer="Benoît Geeraerts [https://b.enoit.be]"
+LABEL ansible=node
 
 RUN apk add --no-cache \ 
         openssh \
