@@ -15,9 +15,12 @@ RUN apk add --no-cache \
         python3-dev \
     && pip install \
         ansible \
+        ansible-lint \
         docker \
         docker-compose \
         jmespath \
+        lxml \
+        netaddr \
     && apk del _build-dependencies \
     && echo "ansible-inventory --graph" > /root/.ash_history \
     && echo "ansible-playbook managed-node/create.yml" >> /root/.ash_history \
