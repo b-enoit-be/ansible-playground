@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+docker compose \
+  --file "$(dirname $0)"/../docker/docker-compose.yml \
+  run \
+  --rm \
+  --entrypoint ash \
+  ansible_controller \

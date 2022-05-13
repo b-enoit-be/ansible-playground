@@ -6,5 +6,4 @@ compose:
   ansible_ssh_port: ansible_ssh_port | default(22, true)
 
 keyed_groups:
-  - key: docker_config.Labels.ansible
-
+  - key: docker_config.Labels.ansible_type

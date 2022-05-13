@@ -1,15 +1,16 @@
-version: "3.8"
+version: "3.9"
+name: ansible
 services:
-  ansible:
+  ansible_controller:
     build: control-node
     image: benoitbe/ansible-control-node
-    container_name: ansible
-    volumes: 
-      - ./control-node:/usr/local/ansible
-      - ansible_playground_ssh_keys:/root/.ssh
+    container_name: ansible_controller
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    entrypoint: tail -f /dev/null
-    
+      - ansible_playground_ssh_keys:/root/.ssh
+      - ../:/usr/local/ansible
+      - ../conf/ansible.cfg:/etc/ansible/ansible.cfg
+
 volumes:
   ansible_playground_ssh_keys:
     name: ansible_playground_ssh_keys

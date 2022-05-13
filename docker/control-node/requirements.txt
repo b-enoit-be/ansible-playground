@@ -1,0 +1,8 @@
+--prefer-binary
+
+ansible
+ansible-lint
+docker
+jmespath
+lxml
+netaddr

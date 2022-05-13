@@ -1,0 +1,5 @@
+- hosts: _nodes
+  gather_facts: no
+
+  tasks:
+    - ping:
