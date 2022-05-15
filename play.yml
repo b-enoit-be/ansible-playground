@@ -1,5 +1,4 @@
-- hosts: _nodes
+- hosts: localhost
   gather_facts: no
 
   tasks:
-    - ping:
