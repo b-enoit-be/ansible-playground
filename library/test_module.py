@@ -42,20 +42,20 @@ received:
 
 def main():
     module = AnsibleModule(
-        argument_spec=dict(
-            foo=dict(type='str', required=True),
-            bar=dict(type='list', required=False),
+        argument_spec = dict(
+            foo = dict(type = 'str', required = True),
+            bar = dict(type = 'list', required = False),
         )
     )
 
     params = module.params
 
     module.exit_json(
-        received={
+        received = {
             'foo': params['foo'],
             'bar': params['bar'],
         },
-        changed=True
+        changed = True
     )
 
 if __name__ == '__main__':
