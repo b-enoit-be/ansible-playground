@@ -8,6 +8,7 @@ COPY requirements.txt /opt/ansible/requirements.txt
 
 RUN apk add --no-cache \
         openssh-client \
+        tree \
     && apk add --no-cache --virtual _build-dependencies \
         libffi-dev \
         gcc \
