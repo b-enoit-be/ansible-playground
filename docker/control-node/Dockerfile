@@ -18,5 +18,4 @@ RUN apk add --no-cache \
 
 COPY .ash_history /root/.ash_history
 
-ENTRYPOINT ["ansible-playbook"]
-CMD ["play.yml"]
+CMD ["ansible-playbook", "play.yml"]

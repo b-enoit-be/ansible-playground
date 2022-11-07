@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -euxo pipefail
-
-docker compose \
-  --file "$(dirname $0)"/../docker/docker-compose.yml \
-  build
-
-"$(dirname $0)"/start
