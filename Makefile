@@ -35,6 +35,6 @@ attach:
 clean:
 	@docker compose \
    		--file docker/docker-compose.yml \
-			down \
-			--rmi all \
-			--volumes \
+		down \
+		--rmi all \
+		--volumes
