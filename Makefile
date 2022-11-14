@@ -5,36 +5,37 @@ cmd:='ansible-playbook play.yml'
 all: .up
 
 rebuild: .build .up
+
 inventory: cmd='ansible-inventory --graph'
 inventory: .up
 
-.build:
+.build: docker/docker-compose.yml
 	@docker compose \
-		--file docker/docker-compose.yml \
+		--file $< \
     	build
 
-.up:
+.up: docker/docker-compose.yml
 	@cmd=${cmd} docker compose \
-		--file docker/docker-compose.yml \
+		--file $< \
 		up \
 		--attach controller \
 		--abort-on-container-exit \
 		--no-log-prefix
 
-attach:
+attach: docker/docker-compose.yml
 	@cmd='tail -f /dev/null' docker compose \
-		--file docker/docker-compose.yml \
+		--file $< \
 		up \
 		--detach
 	@docker compose \
-		--file docker/docker-compose.yml \
+		--file $< \
 		exec \
 		controller \
 		ash
 
-clean:
+clean: docker/docker-compose.yml
 	@docker compose \
-   		--file docker/docker-compose.yml \
+   		--file $< \
 		down \
 		--rmi all \
 		--volumes
