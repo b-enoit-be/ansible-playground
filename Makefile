@@ -1,29 +1,31 @@
+.EXPORT_ALL_VARIABLES:
+
 nodes?=0
+cmd := ansible-playbook play.yml
 
-cmd:='ansible-playbook play.yml'
+all: up
 
-all: .up
+rebuild: .build up
 
-rebuild: .build .up
-
-inventory: cmd='ansible-inventory --graph'
-inventory: .up
+inventory: cmd = ansible-inventory --graph
+inventory: up
 
 .build: docker/docker-compose.yml
 	@docker compose \
 		--file $< \
     	build
 
-.up: docker/docker-compose.yml
-	@cmd=${cmd} docker compose \
+up: docker/docker-compose.yml
+	@docker compose \
 		--file $< \
 		up \
 		--attach controller \
 		--abort-on-container-exit \
 		--no-log-prefix
 
+attach: cmd = tail -f /dev/null
 attach: docker/docker-compose.yml
-	@cmd='tail -f /dev/null' docker compose \
+	@docker compose \
 		--file $< \
 		up \
 		--detach
