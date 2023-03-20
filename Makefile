@@ -3,7 +3,7 @@
 nodes?=0
 cmd := ansible-playbook play.yml
 
-all: up
+all: attach
 
 rebuild: .build up
 
