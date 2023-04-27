@@ -12,13 +12,23 @@ services:
       - ../conf/ansible.cfg:/etc/ansible/ansible.cfg
       - public_ssh_key:/usr/local/share/.ssh
   node:
-    build: node
+    build: node/alpine
     image: benoitbe/ansible-node
     volumes:
       - public_ssh_key:/usr/local/share/.ssh
     deploy:
       mode: replicated
       replicas: "${nodes:-0}"
+    depends_on:
+      - controller
+  node-debian:
+    build: node/debian
+    image: benoitbe/ansible-node-debian
+    volumes:
+      - public_ssh_key:/usr/local/share/.ssh
+    deploy:
+      mode: replicated
+      replicas: "${nodes_debian:-0}"
     depends_on:
       - controller
 

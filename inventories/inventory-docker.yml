@@ -1,6 +1,7 @@
 plugin: community.docker.docker_containers
 docker_host: unix://var/run/docker.sock
 connection_type: ssh
+leading_separator: false
 
 compose:
   ansible_ssh_host: ansible_ssh_host | default(docker_name[1:], true)
