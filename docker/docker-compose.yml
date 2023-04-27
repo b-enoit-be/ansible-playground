@@ -2,29 +2,25 @@ version: "3.9"
 name: ansible
 services:
   controller:
-    build: control-node
-    image: benoitbe/ansible-control-node
+    build: controller
+    image: benoitbe/ansible-controller
     command: "${cmd:-ansible-playbook play.yml}"
-    container_name: ansible_controller
+    container_name: ansible-controller
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ansible_playground_ssh_keys:/root/.ssh
       - ../:/usr/local/ansible
       - ../conf/ansible.cfg:/etc/ansible/ansible.cfg
-
+      - public_ssh_key:/usr/local/share/.ssh
   node:
-    build: managed-node
-    image: benoitbe/ansible-managed-node
+    build: node
+    image: benoitbe/ansible-node
     volumes:
-      - ansible_playground_ssh_keys:/etc/ssh
+      - public_ssh_key:/usr/local/share/.ssh
     deploy:
       mode: replicated
       replicas: "${nodes:-0}"
+    depends_on:
+      - controller
 
 volumes:
-  ansible_playground_ssh_keys:
-    name: ansible_playground_ssh_keys
-
-networks:
-  default:
-    name: ansible_playground
+  public_ssh_key:

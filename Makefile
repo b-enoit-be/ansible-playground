@@ -41,3 +41,4 @@ clean: docker/docker-compose.yml
 		down \
 		--rmi all \
 		--volumes
+	@git clean -df
