@@ -1,3 +1,7 @@
+x-node: &x-node
+  volumes:
+    - public_ssh_key:/usr/local/share/.ssh
+
 version: "3.9"
 name: ansible
 services:
@@ -6,31 +10,42 @@ services:
     image: benoitbe/ansible-controller
     command: "${cmd:-ansible-playbook play.yml}"
     container_name: ansible-controller
+    stdin_open: true
+    tty: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ../:/usr/local/ansible
       - ../conf/ansible.cfg:/etc/ansible/ansible.cfg
       - public_ssh_key:/usr/local/share/.ssh
+    depends_on:
+      - node
+      - node-debian
+      - node-ubuntu
+
   node:
+    <<: *x-node
     build: node/alpine
     image: benoitbe/ansible-node
-    volumes:
-      - public_ssh_key:/usr/local/share/.ssh
     deploy:
       mode: replicated
       replicas: "${nodes:-0}"
-    depends_on:
-      - controller
+
   node-debian:
+    <<: *x-node
     build: node/debian
     image: benoitbe/ansible-node-debian
-    volumes:
-      - public_ssh_key:/usr/local/share/.ssh
     deploy:
       mode: replicated
       replicas: "${nodes_debian:-0}"
-    depends_on:
-      - controller
+
+  node-ubuntu:
+    <<: *x-node
+    build: node/ubuntu
+    image: benoitbe/ansible-node-ubuntu
+    deploy:
+      mode: replicated
+      replicas: "${nodes_ubuntu:-0}"
+
 
 volumes:
   public_ssh_key:

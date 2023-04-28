@@ -1,11 +1,10 @@
 .EXPORT_ALL_VARIABLES:
 
-nodes?=0
 cmd := ansible-playbook play.yml
 
 all: attach
 
-rebuild: .build up
+rebuild: .build all
 
 inventory: cmd = ansible-inventory --graph
 inventory: up
@@ -23,22 +22,25 @@ up: docker/docker-compose.yml
 		--abort-on-container-exit \
 		--no-log-prefix
 
-attach: cmd = tail -f /dev/null
-attach: docker/docker-compose.yml
-	@docker compose \
-		--file $< \
-		up \
-		--detach
-	@docker compose \
-		--file $< \
-		exec \
-		controller \
-		ash
+attach: .attach down
 
-clean: docker/docker-compose.yml
+.attach: cmd = ash
+.attach: docker/docker-compose.yml
+	-@docker compose \
+		--file $< \
+		run \
+		--rm \
+		controller
+
+down: docker/docker-compose.yml
 	@docker compose \
    		--file $< \
 		down \
-		--rmi all \
+		$(down_flags) \
 		--volumes
+
+clean: down_flags = --rmi all
+clean: .clean down
+
+.clean: docker/docker-compose.yml
 	@git clean -df
