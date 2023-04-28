@@ -1,7 +1,5 @@
 .EXPORT_ALL_VARIABLES:
 
-cmd := ansible-playbook play.yml
-
 all: attach
 
 rebuild: .build all
@@ -40,7 +38,7 @@ down: docker/docker-compose.yml
 		--volumes
 
 clean: down_flags = --rmi all
-clean: .clean down
+clean: down .clean
 
 .clean: docker/docker-compose.yml
 	@git clean -df
