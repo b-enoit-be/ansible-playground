@@ -8,6 +8,7 @@ COPY opt/ansible/requirements.txt /opt/ansible/requirements.txt
 COPY --chmod=755 usr/local/bin/entrypoint /usr/local/bin/entrypoint
 
 RUN apk add --no-cache \
+        git \
         openssh-client \
         tree \
     && apk add --no-cache --virtual _build-dependencies \
