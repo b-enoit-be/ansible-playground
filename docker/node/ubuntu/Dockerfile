@@ -7,6 +7,7 @@ RUN apt-get -qq update \
     && apt-get -qq install --yes --no-install-recommends \
         openssh-server \
         python3 \
+        sudo \
     && ssh-keygen -A \
     && echo "root:$(tr -cd '[:print:]' < /dev/urandom | fold -w30 | head -n1 | base64)" \
         | chpasswd \

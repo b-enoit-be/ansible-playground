@@ -6,6 +6,7 @@ LABEL ansible_type=nodes
 RUN apk add --no-cache \
         openssh-server \
         python3 \
+        sudo \
     && ssh-keygen -A \
     && echo "root:$(tr -cd '[:print:]' < /dev/urandom | fold -w30 | head -n1 | base64)" \
         | chpasswd \
