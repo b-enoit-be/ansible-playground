@@ -7,6 +7,11 @@ rebuild: .build all
 inventory: cmd = ansible-inventory --graph
 inventory: up
 
+nodes: nodes = $(shell bash -c 'read -rp "How many Alpine nodes do you want? " nodes; echo $$nodes')
+nodes: nodes_debian = $(shell bash -c 'read -rp "How many Debian nodes do you want? " nodes; echo $$nodes')
+nodes: nodes_ubuntu = $(shell bash -c 'read -rp "How many Ubuntu nodes do you want? " nodes; echo $$nodes')
+nodes: attach
+
 .build: docker/docker-compose.yml
 	@docker compose \
 		--file $< \
@@ -30,6 +35,9 @@ attach: .attach down
 		--rm \
 		controller
 
+down: nodes =
+down: nodes_debian =
+down: nodes_ubuntu =
 down: docker/docker-compose.yml
 	@docker compose \
    		--file $< \
