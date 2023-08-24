@@ -2,6 +2,8 @@ FROM debian
 
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
 LABEL ansible_type=nodes
+LABEL distribution=debian
+
 
 RUN apt-get -qq update \
     && apt-get -qq install --yes --no-install-recommends \
@@ -17,4 +19,4 @@ RUN apt-get -qq update \
 
 EXPOSE 22
 
-CMD ["/usr/sbin/sshd", "-D", "-e"]
+CMD [ "/usr/sbin/sshd", "-D", "-e" ]

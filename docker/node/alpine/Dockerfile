@@ -2,6 +2,8 @@ FROM alpine
 
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
 LABEL ansible_type=nodes
+LABEL distribution=alpine
+
 
 RUN apk add --no-cache \
         openssh-server \
@@ -15,4 +17,4 @@ RUN apk add --no-cache \
 
 EXPOSE 22
 
-CMD ["/usr/sbin/sshd", "-D", "-e"]
+CMD [ "/usr/sbin/sshd", "-D", "-e" ]

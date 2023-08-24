@@ -1,0 +1,13 @@
+services:
+  node-ubuntu:
+    build: node/ubuntu
+    image: benoitbe/ansible-node-ubuntu
+    deploy:
+      mode: replicated
+      replicas: "${ubuntu:-1}"
+    volumes:
+      - public_ssh_key:/usr/local/share/.ssh
+
+  controller:
+    depends_on:
+      - node-ubuntu

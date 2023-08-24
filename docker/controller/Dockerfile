@@ -8,7 +8,6 @@ COPY opt/ansible/requirements.txt /opt/ansible/requirements.txt
 COPY --chmod=755 usr/local/bin/entrypoint /usr/local/bin/entrypoint
 
 RUN apk add --no-cache \
-        git \
         openssh-client \
         tree \
     && apk add --no-cache --virtual _build-dependencies \
@@ -25,5 +24,5 @@ RUN apk add --no-cache \
 
 COPY root/.ash_history /root/.ash_history
 
-ENTRYPOINT ["/usr/local/bin/entrypoint"]
-CMD ["ansible-playbook", "play.yml"]
+ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
+CMD [ "ansible-playbook", "play.yml" ]
