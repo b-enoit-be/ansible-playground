@@ -1,5 +1,5 @@
 services:
-  node-ubuntu:
+  ubuntu:
     build: node/ubuntu
     image: benoitbe/ansible-node-ubuntu
     deploy:
@@ -10,4 +10,4 @@ services:
 
   controller:
     depends_on:
-      - node-ubuntu
+      - ubuntu

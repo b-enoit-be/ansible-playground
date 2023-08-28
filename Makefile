@@ -1,9 +1,15 @@
-distributions = nodes ubuntu debian
+distributions = alpine ubuntu debian
 COMPOSE_FILE = docker/compose.yml$(subst  $() ,,$(foreach distribution,$(distributions),$(if $($(distribution)),:docker/compose.$(distribution).yml)))
 
 export
 
-all: attach
+all: run
+
+attach: docker/compose.yml
+	@docker compose \
+    	exec \
+		$$node \
+		bash
 
 rebuild: .build all
 
@@ -22,10 +28,10 @@ up: docker/compose.yml
 		--remove-orphans \
 		--no-log-prefix
 
-attach: .attach down
+run: .run down
 
-.attach: cmd = ash
-.attach: docker/compose.yml
+.run: cmd = ash
+.run: docker/compose.yml
 	-@docker compose \
 		run \
 		--rm \

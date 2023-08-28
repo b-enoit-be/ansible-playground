@@ -1,5 +1,5 @@
 services:
-  node:
+  alpine:
     build: node/alpine
     image: benoitbe/ansible-node
     deploy:
@@ -10,4 +10,4 @@ services:
 
   controller:
     depends_on:
-      - node
+      - alpine

@@ -1,5 +1,5 @@
 services:
-  node-debian:
+  debian:
     build: node/debian
     image: benoitbe/ansible-node-debian
     deploy:
@@ -10,4 +10,4 @@ services:
 
   controller:
     depends_on:
-      - node-debian
+      - debian
