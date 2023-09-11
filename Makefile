@@ -1,13 +1,10 @@
-distributions = alpine ubuntu debian
-COMPOSE_FILE = docker/compose.yml$(subst  $() ,,$(foreach distribution,$(distributions),$(if $($(distribution)),:docker/compose.$(distribution).yml)))
-
 export
 
 all: run
 
-attach: docker/compose.yml
+attach: compose.yml
 	@docker compose \
-    	exec \
+		exec \
 		$$node \
 		bash
 
@@ -16,11 +13,11 @@ rebuild: .build all
 inventory: cmd = ansible-inventory --graph
 inventory: up
 
-.build: docker/compose.yml
+.build: compose.yml
 	@docker compose \
-    	build
+		build
 
-up: docker/compose.yml
+up: compose.yml
 	@docker compose \
 		up \
 		--attach controller \
@@ -31,17 +28,14 @@ up: docker/compose.yml
 run: .run down
 
 .run: cmd = ash
-.run: docker/compose.yml
+.run: compose.yml
 	-@docker compose \
 		run \
 		--rm \
 		--remove-orphans \
 		controller
 
-down: nodes =
-down: nodes_debian =
-down: nodes_ubuntu =
-down: docker/compose.yml
+down: compose.yml
 	@docker compose \
 		down \
 		$(down_flags) \
@@ -51,5 +45,5 @@ down: docker/compose.yml
 clean: down_flags = --rmi all
 clean: down .clean
 
-.clean: docker/compose.yml
+.clean: compose.yml
 	@git clean -df

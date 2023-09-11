@@ -1,0 +1,19 @@
+name: "ansible"
+services:
+  {%
+    for distribution in distributions | split | map('trim', '/')
+      if lookup('env', distribution | upper) | int > 0
+  +%}
+  {{ distribution }}:
+    build: {{ distribution }}
+    image: benoitbe/ansible-node-{{ distribution }}
+    deploy:
+      mode: replicated
+      replicas: "{{ '${' ~ distribution | upper ~ ':-0}' }}"
+    volumes:
+      - ansible_public_ssh_key:/usr/local/share/.ssh
+  {% endfor %}
+
+volumes:
+  ansible_public_ssh_key:
+    external: true

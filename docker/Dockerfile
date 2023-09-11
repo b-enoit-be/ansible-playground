@@ -3,11 +3,11 @@ FROM python:alpine
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
 LABEL ansible_type=controller
 
-WORKDIR /usr/local/ansible
 COPY opt/ansible/requirements.txt /opt/ansible/requirements.txt
-COPY --chmod=755 usr/local/bin/entrypoint /usr/local/bin/entrypoint
 
 RUN apk add --no-cache \
+        docker-cli \
+        docker-cli-compose  \
         openssh-client \
         tree \
     && apk add --no-cache --virtual _build-dependencies \
@@ -23,6 +23,9 @@ RUN apk add --no-cache \
         -P ''
 
 COPY root/.ash_history /root/.ash_history
+COPY --chmod=755 usr/local/bin/entrypoint /usr/local/bin/entrypoint
+
+WORKDIR /usr/local/ansible
 
 ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
 CMD [ "ansible-playbook", "play.yml" ]

@@ -1,15 +1,18 @@
-name: 'ansible'
+name: "ansible"
 services:
   controller:
-    build: controller
+    build: docker
     image: benoitbe/ansible-controller
     command: "${cmd:-ansible-playbook play.yml}"
     stdin_open: true
     tty: true
+    environment:
+      ALPINE: "${NODES:-0}"
+      DEBIAN: "${DEBIAN_NODES:-0}"
+      UBUNTU: "${UBUNTU_NODES:-0}"
     volumes:
+      - .:/usr/local/ansible
       - /var/run/docker.sock:/var/run/docker.sock
-      - ..:/usr/local/ansible
-      - ../conf/ansible.cfg:/etc/ansible/ansible.cfg
       - public_ssh_key:/usr/local/share/.ssh
 
 volumes:
