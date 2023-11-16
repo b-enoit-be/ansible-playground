@@ -9,5 +9,5 @@ compose:
   ansible_ssh_port: 22
 
 keyed_groups:
-  - key: docker_config.Labels.ansible_type
-  - key: docker_config.Labels.distribution
+  - key: docker_config.Labels['com.ansible.inventory.group']
+  - key: docker_config.Labels['com.ansible.os.family']

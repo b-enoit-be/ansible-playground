@@ -15,7 +15,7 @@
       ubuntu: *apt
 
   tasks:
-    - template:
+    - ansible.builtin.template:
         src: node.Dockerfile.j2
         dest: "templates/{{ item }}.Dockerfile"
       loop: "{{ distributions }}"
@@ -32,6 +32,10 @@
     - community.docker.docker_container:
         name: "node-{{ item }}-{{ '1' }}"
         image: "benoitbe/ansible-node:{{ item }}"
+        labels:
+          com.docker.compose.config-hash: ''
+          com.docker.compose.project: ansible
+          com.docker.compose.service: node
         networks:
           - name: ansible_default
         volumes:
@@ -39,9 +43,3 @@
       loop: "{{ distributions }}"
       # loop_control:
       #   extended: true
-
-# TODO:
-# 1. be able to have multiple container of a distribution (node-alpine-1, node-alpine-2, etc)
-# 2. pass all nodes_* variables from make to the container
-# 3. keep on investigating docker compose watch
-# 4. add distributions (one that uses pacman, arch?, one that uses yum, one that uses dnf)

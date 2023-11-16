@@ -1,8 +1,9 @@
 FROM {{ item }}
 
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
-LABEL ansible_type=nodes
-LABEL distribution={{ item }}
+LABEL com.ansible.node=managed
+LABEL com.ansible.inventory.group=node
+LABEL com.ansible.os.family={{ item }}
 
 
 RUN {{ package_managers[item] }} \

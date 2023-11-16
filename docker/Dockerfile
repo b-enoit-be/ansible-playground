@@ -1,7 +1,7 @@
 FROM python:alpine
 
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
-LABEL ansible_type=controller
+LABEL com.ansible.node=controller
 
 COPY etc /etc/ansible
 

@@ -1,7 +1,7 @@
 name: "ansible"
 services:
   controller:
-    build: docker
+    build: .
     image: benoitbe/ansible-controller
     command: "${cmd:-ansible-playbook play.yml}"
     stdin_open: true
@@ -11,8 +11,8 @@ services:
       DEBIAN: "${DEBIAN_NODES:-0}"
       UBUNTU: "${UBUNTU_NODES:-0}"
     volumes:
-      - .:/usr/local/ansible
-      - ./docker/bin/nodes.yml:/usr/local/bin/nodes.yml
+      - ..:/usr/local/ansible
+      - ./bin/nodes.yml:/usr/local/bin/nodes.yml
       - /var/run/docker.sock:/var/run/docker.sock
       - public_ssh_key:/usr/local/share/.ssh
 

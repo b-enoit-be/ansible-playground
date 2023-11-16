@@ -47,3 +47,9 @@ make
   ```shell
   make clean
   ```
+
+### TODO:
+1. be able to have multiple container of a distribution (node-alpine-1, node-alpine-2, etc)
+2. pass all nodes_* variables from make to the container
+3. keep on investigating docker compose watch
+4. add distributions (one that uses pacman, arch?, one that uses yum, one that uses dnf)

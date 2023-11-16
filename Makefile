@@ -1,3 +1,5 @@
+COMPOSE_FILE = docker/compose.yml
+
 export
 
 all: run
@@ -13,11 +15,11 @@ rebuild: .build all
 inventory: cmd = ansible-inventory --graph
 inventory: up
 
-.build: compose.yml
+.build: docker/compose.yml
 	@docker compose \
 		build
 
-up: compose.yml
+up: docker/compose.yml
 	@docker compose \
 		up \
 		--attach controller \
@@ -28,23 +30,14 @@ up: compose.yml
 run: .run down
 
 .run: cmd = ash
-.run: compose.yml
+.run: docker/compose.yml
 	-@docker compose \
 		run \
 		--rm \
 		--remove-orphans \
 		controller
 
-down: compose.yml
-	-@docker rm \
-		--force \
-		--volumes \
-		$$( \
-			docker ps \
-				--all \
-				--quiet \
-				--filter "label=ansible_type" \
-		) 2> /dev/null
+down: docker/compose.yml
 	@docker compose \
 		down \
 		$(down_flags) \
@@ -54,5 +47,5 @@ down: compose.yml
 clean: down_flags = --rmi all
 clean: down .clean
 
-.clean: compose.yml
+.clean: docker/compose.yml
 	@git clean -df
