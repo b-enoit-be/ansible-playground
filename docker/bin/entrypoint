@@ -1,0 +1,7 @@
+#!/usr/bin/env ash
+
+cp ~/.ssh/id_ed25519.pub /usr/local/share/.ssh/id_ed25519.pub
+
+ansible-playbook /usr/local/bin/nodes.yml
+
+exec "$@"

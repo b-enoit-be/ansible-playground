@@ -12,8 +12,10 @@ services:
       UBUNTU: "${UBUNTU_NODES:-0}"
     volumes:
       - .:/usr/local/ansible
+      - ./docker/bin/nodes.yml:/usr/local/bin/nodes.yml
       - /var/run/docker.sock:/var/run/docker.sock
       - public_ssh_key:/usr/local/share/.ssh
 
 volumes:
   public_ssh_key:
+  ansible_nodes_dockerfiles:

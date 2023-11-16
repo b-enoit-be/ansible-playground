@@ -1,12 +1,11 @@
-FROM debian
+FROM {{ item }}
 
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
 LABEL ansible_type=nodes
-LABEL distribution=debian
+LABEL distribution={{ item }}
 
 
-RUN apt-get -qq update \
-    && apt-get -qq install --yes --no-install-recommends \
+RUN {{ package_managers[item] }} \
         openssh-server \
         python3 \
         sudo \

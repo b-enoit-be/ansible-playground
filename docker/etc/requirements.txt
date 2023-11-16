@@ -6,4 +6,4 @@ docker
 jmespath
 lxml
 netaddr
-urllib3<2
+urllib3

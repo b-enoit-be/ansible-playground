@@ -36,6 +36,15 @@ run: .run down
 		controller
 
 down: compose.yml
+	-@docker rm \
+		--force \
+		--volumes \
+		$$( \
+			docker ps \
+				--all \
+				--quiet \
+				--filter "label=ansible_type" \
+		) 2> /dev/null
 	@docker compose \
 		down \
 		$(down_flags) \

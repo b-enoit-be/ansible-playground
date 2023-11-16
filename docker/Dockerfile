@@ -3,7 +3,7 @@ FROM python:alpine
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
 LABEL ansible_type=controller
 
-COPY opt/ansible/requirements.txt /opt/ansible/requirements.txt
+COPY etc /etc/ansible
 
 RUN apk add --no-cache \
         docker-cli \
@@ -14,7 +14,7 @@ RUN apk add --no-cache \
         libffi-dev \
         gcc \
         musl-dev \
-    && python -m pip install --no-cache-dir --requirement /opt/ansible/requirements.txt \
+    && python -m pip install --no-cache-dir --requirement /etc/ansible/requirements.txt \
     && apk del _build-dependencies \
     && ssh-keygen -o -a 100 \
         -t ed25519 \
@@ -23,9 +23,10 @@ RUN apk add --no-cache \
         -P ''
 
 COPY root/.ash_history /root/.ash_history
-COPY --chmod=755 usr/local/bin/entrypoint /usr/local/bin/entrypoint
+COPY --chmod=755 bin /usr/local/bin
 
 WORKDIR /usr/local/ansible
+VOLUME /usr/local/share/.ssh
 
 ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
 CMD [ "ansible-playbook", "play.yml" ]
