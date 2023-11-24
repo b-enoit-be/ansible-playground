@@ -1,21 +1,22 @@
 COMPOSE_FILE = docker/compose.yml
+node = controller
 
 export
 
 all: run
 
-attach: compose.yml
+attach: docker/compose.yml
 	@docker compose \
 		exec \
 		$$node \
-		bash
+		sh
 
-rebuild: .build all
+rebuild: build all
 
 inventory: cmd = ansible-inventory --graph
 inventory: up
 
-.build: docker/compose.yml
+build: docker/compose.yml
 	@docker compose \
 		build
 
@@ -31,6 +32,7 @@ run: .run down
 
 .run: cmd = ash
 .run: docker/compose.yml
+	@env | { grep '^nodes_' || true; } > docker/nodes.env
 	-@docker compose \
 		run \
 		--rm \

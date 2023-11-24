@@ -15,10 +15,14 @@
       ubuntu: *apt
 
   tasks:
+    - set_fact:
+        nodes: "{{ nodes | default([]) + [item] * lookup('env', 'nodes_' ~ item) | int }}"
+      loop: "{{ distributions }}"
+
     - ansible.builtin.template:
         src: node.Dockerfile.j2
         dest: "templates/{{ item }}.Dockerfile"
-      loop: "{{ distributions }}"
+      loop: "{{ nodes | unique }}"
 
     - community.docker.docker_image:
         source: build
@@ -27,7 +31,7 @@
         build:
           path: /var/empty
           dockerfile: "/usr/local/bin/templates/{{ item }}.Dockerfile"
-      loop: "{{ distributions }}"
+      loop: "{{ nodes | unique  }}"
 
     - community.docker.docker_container:
         name: "node-{{ item }}-{{ '1' }}"
@@ -40,6 +44,6 @@
           - name: ansible_default
         volumes:
           - ansible_public_ssh_key:/usr/local/share/.ssh
-      loop: "{{ distributions }}"
+      loop: "{{ nodes }}"
       # loop_control:
       #   extended: true
