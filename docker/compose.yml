@@ -1,4 +1,4 @@
-name: "ansible"
+name: ansible
 services:
   controller:
     build: .
@@ -10,7 +10,6 @@ services:
       - nodes.env
     volumes:
       - ..:/usr/local/ansible
-      - ./bin/nodes.yml:/usr/local/bin/nodes.yml
       - /var/run/docker.sock:/var/run/docker.sock
       - public_ssh_key:/usr/local/share/.ssh
 

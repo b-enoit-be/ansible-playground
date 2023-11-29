@@ -14,6 +14,8 @@ RUN apk add --no-cache \
         libffi-dev \
         gcc \
         musl-dev \
+    && python -m pip install --no-cache-dir "cython<3.0.0" \
+    && python -m pip install --no-cache-dir "docker-compose>=1.7.0,<2.0.0" --no-build-isolation \
     && python -m pip install --no-cache-dir --requirement /etc/ansible/requirements.txt \
     && apk del _build-dependencies \
     && ssh-keygen -o -a 100 \

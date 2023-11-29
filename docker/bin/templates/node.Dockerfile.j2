@@ -2,9 +2,8 @@ FROM {{ item }}
 
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
 LABEL com.ansible.node=managed
-LABEL com.ansible.inventory.group=node
+LABEL com.ansible.inventory.group=nodes
 LABEL com.ansible.os.family={{ item }}
-
 
 RUN {{ package_managers[item] }} \
         openssh-server \

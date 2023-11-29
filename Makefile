@@ -1,5 +1,6 @@
 COMPOSE_FILE = docker/compose.yml
 node = controller
+nodes_alpine ?= ${nodes}
 
 export
 
