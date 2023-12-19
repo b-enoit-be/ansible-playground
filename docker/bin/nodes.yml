@@ -18,22 +18,40 @@
     - set_fact:
         nodes: >-
           {{
-            dict(
-            distributions
-              | zip(query('env', *['nodes_'] | product(distributions) | map('join')))
-              | selectattr(1)
+            nodes | default([]) + (
+              [item.0] | product(range(1, (item.1 | int) + 1)) | map('join', '-')
             )
           }}
+      loop: >-
+        {{
+          distributions
+            | zip(query('env', *['nodes_'] | product(distributions) | map('join')))
+            | selectattr(1)
+        }}
 
     - ansible.builtin.template:
         src: node.Dockerfile.j2
         dest: "templates/{{ item }}.Dockerfile"
-      loop: "{{ nodes.keys() }}"
+      loop: "{{ nodes | map('split', '-') | map(attribute=0) | unique }}"
 
-    - ansible.builtin.template:
-        src: compose.yml.j2
-        dest: "templates/compose.yml"
+    - community.docker.docker_image:
+        source: build
+        name: benoitbe/ansible-node
+        tag: "{{ item }}"
+        build:
+          path: /var/empty
+          dockerfile: "/usr/local/bin/templates/{{ item }}.Dockerfile"
+      loop: "{{ nodes | map('split', '-') | map(attribute=0) | unique }}"
 
-    - community.docker.docker_compose:
-        project_name: ansible
-        project_src: templates
+    - community.docker.docker_container:
+         name: "node-{{ item }}"
+         image: "benoitbe/ansible-node:{{ (item | split('-')).0 }}"
+         labels:
+           com.docker.compose.config-hash: ''
+           com.docker.compose.project: ansible
+           com.docker.compose.service: node
+         networks:
+           - name: ansible_default
+         volumes:
+           - ansible_public_ssh_key:/usr/local/share/.ssh
+      loop: "{{ nodes }}"
