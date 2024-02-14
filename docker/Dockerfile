@@ -3,9 +3,9 @@ FROM python:alpine
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
 LABEL com.ansible.node=controller
 
-COPY etc /etc/ansible
 
-RUN apk add --no-cache \
+RUN --mount=type=bind,source=docker/etc/requirements.txt,target=/etc/ansible/requirements.txt \
+    apk add --no-cache \
         docker-cli \
         docker-cli-compose  \
         openssh-client \
@@ -22,8 +22,15 @@ RUN apk add --no-cache \
         -C 'john.doe@example.org' \
         -P ''
 
-COPY root/.ash_history /root/.ash_history
-COPY --chmod=755 bin /usr/local/bin
+COPY docker/root/.ash_history /root/.ash_history
+COPY --chmod=755 docker/bin /usr/local/bin
+
+COPY play.yml /usr/local/ansible/play.yml
+COPY ansible.cfg /usr/local/ansible/ansible.cfg
+
+COPY inventories /usr/local/ansible/inventories
+COPY library /usr/local/ansible/library
+COPY roles /usr/local/ansible/roles
 
 WORKDIR /usr/local/ansible
 VOLUME /usr/local/share/.ssh

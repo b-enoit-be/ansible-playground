@@ -1,17 +1,25 @@
 name: ansible
 services:
   controller:
-    build: .
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
     image: benoitbe/ansible-controller
-    command: "${cmd:-ansible-playbook play.yml}"
+    command: "${cmd:-tail -f /dev/null}"
     stdin_open: true
     tty: true
     env_file:
       - nodes.env
     volumes:
-      - ..:/usr/local/ansible
       - /var/run/docker.sock:/var/run/docker.sock
       - public_ssh_key:/usr/local/share/.ssh
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /usr/local/ansible
+          ignore:
+            - docker/
 
 volumes:
   public_ssh_key:

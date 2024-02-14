@@ -1,0 +1,7 @@
+.git
+docker/logs/*
+compose.yml
+Dockerfile
+LICENCE
+Makefile
+README.md

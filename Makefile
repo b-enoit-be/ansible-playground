@@ -9,7 +9,7 @@ export
 all: run
 
 attach: docker/compose.yml
-	@docker compose \
+	-@docker compose \
 		exec \
 		$$node \
 		sh
@@ -31,21 +31,23 @@ up: docker/compose.yml
 		--remove-orphans \
 		--no-log-prefix
 
-run: .run down
+run: .run attach down
 
 .run: cmd = ash
 .run: docker/compose.yml
 	@env | { grep '^nodes_' || true; } > docker/nodes.env
-	-@docker compose \
-		run \
-		--rm \
-		--remove-orphans \
-		controller
+	@docker compose up --detach
+# FIXME: see if there is a better way here, as the watching process will outlive make
+	-@docker compose watch \
+		--no-up \
+		--quiet \
+		&> docker/logs/compose-watch.log &
 
 down: docker/compose.yml
 	@docker compose \
 		down \
 		$(down_flags) \
+		--timeout 0 \
 		--remove-orphans \
 		--volumes
 
@@ -54,3 +56,6 @@ clean: down .clean
 
 .clean: docker/compose.yml
 	@git clean -df
+
+ps: docker/compose.yml
+	@docker compose ps --all
