@@ -2,11 +2,6 @@
   gather_facts: false
 
   vars:
-    distributions:
-      - alpine
-      - debian
-      - ubuntu
-
     package_managers:
       alpine: apk add --no-cache
       debian: &apt |-
@@ -24,8 +19,8 @@
           }}
       loop: >-
         {{
-          distributions
-            | zip(query('env', *['nodes_'] | product(distributions) | map('join')))
+          package_managers.keys()
+            | zip(query('env', *['nodes_'] | product(package_managers.keys()) | map('join')))
             | selectattr(1)
         }}
 

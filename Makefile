@@ -1,5 +1,10 @@
 COMPOSE_FILE = docker/compose.yml
 node = controller
+
+nodes = 0
+nodes_ubuntu = 0
+nodes_debian = 0
+nodes_alpine = 0
 ifdef nodes
 	nodes_alpine = $(nodes)
 endif
@@ -59,3 +64,6 @@ clean: down .clean
 
 ps: docker/compose.yml
 	@docker compose ps --all
+
+logs: docker/compose.yml
+	@docker compose logs --follow
