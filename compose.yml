@@ -2,21 +2,21 @@ name: ansible
 services:
   controller:
     build:
-      context: ..
+      context: .
       dockerfile: docker/Dockerfile
     image: benoitbe/ansible-controller
     command: "${cmd:-tail -f /dev/null}"
     stdin_open: true
     tty: true
     env_file:
-      - nodes.env
+      - docker/nodes.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - public_ssh_key:/usr/local/share/.ssh
     develop:
       watch:
         - action: sync
-          path: ..
+          path: .
           target: /usr/local/ansible
           ignore:
             - docker/

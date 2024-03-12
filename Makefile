@@ -1,4 +1,4 @@
-COMPOSE_FILE = docker/compose.yml
+COMPOSE_FILE = compose.yml
 node = controller
 
 nodes = 0
@@ -13,7 +13,7 @@ export
 
 all: run
 
-attach: docker/compose.yml
+attach: compose.yml
 	-@docker compose \
 		exec \
 		$$node \
@@ -24,11 +24,11 @@ rebuild: build all
 inventory: cmd = ansible-inventory --graph
 inventory: up
 
-build: docker/compose.yml
+build: compose.yml
 	@docker compose \
 		build
 
-up: docker/compose.yml
+up: compose.yml
 	@docker compose \
 		up \
 		--attach controller \
@@ -39,7 +39,7 @@ up: docker/compose.yml
 run: .run attach down
 
 .run: cmd = ash
-.run: docker/compose.yml
+.run: compose.yml
 	@env | { grep '^nodes_' || true; } > docker/nodes.env
 	@docker compose up --detach
 # FIXME: see if there is a better way here, as the watching process will outlive make
@@ -48,7 +48,7 @@ run: .run attach down
 		--quiet \
 		&> docker/logs/compose-watch.log &
 
-down: docker/compose.yml
+down: compose.yml
 	@docker compose \
 		down \
 		$(down_flags) \
@@ -59,11 +59,11 @@ down: docker/compose.yml
 clean: down_flags = --rmi all
 clean: down .clean
 
-.clean: docker/compose.yml
+.clean: compose.yml
 	@git clean -df
 
-ps: docker/compose.yml
+ps: compose.yml
 	@docker compose ps --all
 
-logs: docker/compose.yml
+logs: compose.yml
 	@docker compose logs --follow
