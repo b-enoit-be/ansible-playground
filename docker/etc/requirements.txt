@@ -1,6 +1,0 @@
-ansible
-ansible-lint
-docker
-jmespath
-lxml
-netaddr

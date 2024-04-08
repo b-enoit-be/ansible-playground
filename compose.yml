@@ -10,8 +10,10 @@ services:
     tty: true
     env_file:
       - docker/nodes.env
+    group_add:
+      - root
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - public_ssh_key:/usr/local/share/.ssh
     develop:
       watch:
@@ -24,3 +26,7 @@ services:
 volumes:
   public_ssh_key:
   ansible_nodes_dockerfiles:
+
+configs:
+  docker_socket:
+    file: /var/run/docker.sock
