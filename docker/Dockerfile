@@ -28,9 +28,10 @@ ENV HISTFILE /home/nobody/.history
 ENV PATH /home/nobody/.local/bin:$PATH
 
 RUN python -m pip install --no-cache-dir --user pipx \
-    && pipx install --include-deps ansible \
-    && pipx inject ansible \
+    && pipx install --include-deps \
+        ansible \
         ansible-lint \
+    && pipx inject ansible \
         docker \
         jmespath \
         lxml \

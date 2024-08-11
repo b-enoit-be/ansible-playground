@@ -13,6 +13,13 @@ export
 
 all: run
 
+root-attach: compose.yml
+	-@docker compose \
+		exec \
+		--user root \
+		$$node \
+		sh
+
 attach: compose.yml
 	-@docker compose \
 		exec \
@@ -36,7 +43,7 @@ up: compose.yml
 		--remove-orphans \
 		--no-log-prefix
 
-run: .run attach down
+run: .run root-attach down
 
 .run: cmd = ash
 .run: compose.yml
