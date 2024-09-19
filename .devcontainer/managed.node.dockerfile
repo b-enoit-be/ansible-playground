@@ -1,11 +1,17 @@
-FROM {{ item }}
+ARG DISTRO=alpine
+FROM ${DISTRO}
+
+ARG DISTRO=${DISTRO:-alpine}
+ARG PACKAGE_MANAGER_UPDATE_CMD="true"
+ARG PACKAGE_MANAGER_INSTALL_CMD="apk add --no-cache"
 
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
 LABEL com.ansible.node=managed
 LABEL com.ansible.inventory.group=nodes
-LABEL com.ansible.os.family={{ item }}
+LABEL com.ansible.os.family=${DISTRO}
 
-RUN {{ package_managers[item] }} \
+RUN ${PACKAGE_MANAGER_UPDATE_CMD} \
+    && ${PACKAGE_MANAGER_INSTALL_CMD} \
         openssh-server \
         python3 \
         sudo \

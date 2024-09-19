@@ -1,11 +1,12 @@
 FROM python:alpine
 
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
-LABEL com.ansible.node=controller
+LABEL com.ansible.inventory.group=controller
 
 RUN apk add --no-cache \
         docker-cli \
         docker-cli-compose  \
+        git \
         openssh-client \
         tree \
     && mkdir -p /usr/local/share/.ssh \
@@ -37,19 +38,10 @@ RUN python -m pip install --no-cache-dir --user pipx \
         lxml \
         netaddr
 
-COPY docker/etc/.history /home/nobody/.history
-COPY docker/etc/ssh.conf /etc/ssh/ssh_config.d/ssh.conf
-COPY --chmod=755 docker/bin /usr/local/bin
-
-COPY play.yml /usr/local/ansible/play.yml
-COPY ansible.cfg /usr/local/ansible/ansible.cfg
-
-COPY inventories /usr/local/ansible/inventories
-COPY library /usr/local/ansible/library
-COPY roles /usr/local/ansible/roles
+COPY etc/.history /home/nobody/.history
+COPY etc/ssh.conf /etc/ssh/ssh_config.d/ssh.conf
 
 WORKDIR /usr/local/ansible
 VOLUME /usr/local/share/.ssh
 
-ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
 CMD [ "ansible-playbook", "play.yml" ]

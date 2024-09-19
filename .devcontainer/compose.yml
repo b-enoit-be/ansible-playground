@@ -1,0 +1,56 @@
+name: ansible
+services:
+  control-node:
+    image: benoitbe/ansible-control-node
+    build:
+      dockerfile: control.node.dockerfile
+    command: /bin/sh -c "while sleep 100000; do :; done"
+    group_add:
+      - root
+    env_file:
+      - path: ../.env
+        required: false
+    volumes:
+      - ..:/usr/local/ansible:cached
+      - public_ssh_key:/usr/local/share/.ssh
+    configs:
+      - source: docker.sock
+        target: /var/run/docker.sock
+
+  managed-node-alpine:
+    image: benoitbe/managed-node-alpine
+    build:
+      dockerfile: managed.node.dockerfile
+    volumes:
+      - public_ssh_key:/usr/local/share/.ssh:nocopy
+    deploy:
+      replicas: ${NODES_ALPINE:-0}
+
+  managed-node-debian:
+    image: benoitbe/managed-node-debian
+    extends:
+      service: managed-node-alpine
+    build:
+      args:
+        DISTRO: debian
+        PACKAGE_MANAGER_UPDATE_CMD: apt-get -qq update
+        PACKAGE_MANAGER_INSTALL_CMD: apt-get -qq install --yes --no-install-recommends
+    deploy:
+      replicas: ${NODES_DEBIAN:-0}
+
+  managed-node-ubuntu:
+    image: benoitbe/managed-node-ubuntu
+    extends:
+      service: managed-node-debian
+    build:
+      args:
+        DISTRO: ubuntu
+    deploy:
+      replicas: ${NODES_UBUNTU:-0}
+
+volumes:
+  public_ssh_key:
+
+configs:
+  docker.sock:
+    file: /var/run/docker.sock

@@ -1,9 +1,0 @@
-#!/usr/bin/env ash
-set -eux
-
-if env | grep -q '^nodes_'
-then
-    ansible-playbook /usr/local/bin/nodes.yml
-fi
-
-exec "$@"

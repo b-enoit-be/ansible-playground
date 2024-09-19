@@ -13,5 +13,5 @@ keyed_groups:
   - key: docker_config.Labels['com.ansible.os.family']
 
 filters:
-  - include: "'com.ansible.node' in docker_config.Labels"
+  - include: "'com.ansible.inventory.group' in docker_config.Labels"
   - exclude: true
