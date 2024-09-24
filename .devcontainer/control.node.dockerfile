@@ -7,6 +7,7 @@ RUN apk add --no-cache \
         docker-cli \
         docker-cli-compose  \
         git \
+        gnupg \
         openssh-client \
         tree \
     && mkdir -p /usr/local/share/.ssh \
