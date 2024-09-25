@@ -1,0 +1,12 @@
+# Required by `community.general.json_query`
+# @see https://docs.ansible.com/ansible/latest/collections/community/general/json_query_filter.html#ansible-collections-community-general-json-query-filter
+jmespath
+# Required by `community.general.xml module`
+# @see https://docs.ansible.com/ansible/latest/collections/community/general/xml_module.html#ansible-collections-community-general-xml-module
+lxml
+# Required by `ansible.utils.ipaddr`
+# @see https://docs.ansible.com/ansible/latest/collections/ansible/utils/ipaddr_filter.html#ansible-collections-ansible-utils-ipaddr-filter
+netaddr
+# Required by `community.docker.docker_containers`
+# @see https://docs.ansible.com/ansible/latest/collections/community/docker/docker_containers_inventory.html
+requests

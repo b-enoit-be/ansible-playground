@@ -1,24 +1,24 @@
 {
-    "dockerComposeFile": [
-        "compose.yml"
-    ],
-    "service": "control-node",
-    "workspaceFolder": "/usr/local/ansible",
-    "shutdownAction": "stopCompose",
-    "customizations": {
-        "vscode": {
-            "settings": {
-                "terminal.integrated.defaultProfile.linux": "ash",
-                "terminal.integrated.profiles.linux": {
-                    "ash": {
-                        "path": "/bin/ash"
-                    }
-                }
-            },
-            "extensions": [
-                "streetsidesoftware.code-spell-checker",
-                "ms-azuretools.vscode-docker"
-            ]
+  "dockerComposeFile": [
+    "compose.yml"
+  ],
+  "service": "control-node",
+  "workspaceFolder": "/usr/local/ansible",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "ash",
+        "terminal.integrated.profiles.linux": {
+          "ash": {
+            "path": "/bin/ash"
+          }
         }
+      },
+      "extensions": [
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker"
+      ]
     }
+  }
 }
