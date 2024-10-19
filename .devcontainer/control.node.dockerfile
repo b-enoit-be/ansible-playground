@@ -24,9 +24,6 @@ RUN apk add --no-cache \
     && chmod u=rw,g=,o= /usr/local/share/.ssh/id_ed25519.pub \
     && chown -R nobody:nobody /home/nobody/.ssh
 
-# FIXME: add an actual user here, instead of using nobody
-USER nobody
-
 ENV HOME /home/nobody
 ENV HISTFILE /home/nobody/.history
 ENV PATH /home/nobody/.local/bin:$PATH

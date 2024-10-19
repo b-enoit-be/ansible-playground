@@ -1,12 +1,15 @@
 plugin: community.docker.docker_containers
 docker_host: unix://var/run/docker.sock
-connection_type: ssh
 leading_separator: false
 verbose_output: true
 
 compose:
   ansible_ssh_host: docker_name[1:]
   ansible_ssh_port: 22
+  ansible_connection: >-
+    'ssh'
+      if docker_config.Labels['com.ansible.inventory.group'] == 'nodes'
+      else 'community.docker.docker'
 
 keyed_groups:
   - key: docker_config.Labels['com.ansible.inventory.group']
