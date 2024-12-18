@@ -1,4 +1,5 @@
 plugin: community.docker.docker_containers
+strict: true
 docker_host: unix://var/run/docker.sock
 leading_separator: false
 verbose_output: true
@@ -13,7 +14,7 @@ compose:
 
 keyed_groups:
   - key: docker_config.Labels['com.ansible.inventory.group']
-  - key: docker_config.Labels['com.ansible.os.family']
+  - key: docker_config.Labels['com.ansible.os.family'] | default('all')
 
 filters:
   - include: "'com.ansible.inventory.group' in docker_config.Labels"
