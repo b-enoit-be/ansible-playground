@@ -1,12 +1,11 @@
 ARG DISTRO=alpine
 FROM ${DISTRO}
 
-ARG DISTRO=${DISTRO:-alpine}
-ARG PACKAGE_MANAGER_UPDATE_CMD="true"
+ARG DISTRO=${DISTRO}
+ARG PACKAGE_MANAGER_UPDATE_CMD=":"
 ARG PACKAGE_MANAGER_INSTALL_CMD="apk add --no-cache"
 
 LABEL org.opencontainers.image.authors="Benoît Geeraerts [https://b.enoit.be]"
-LABEL com.ansible.node=managed
 LABEL com.ansible.inventory.group=nodes
 LABEL com.ansible.os.family=${DISTRO}
 

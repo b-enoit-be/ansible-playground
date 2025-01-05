@@ -14,7 +14,7 @@ compose:
 
 keyed_groups:
   - key: docker_config.Labels['com.ansible.inventory.group']
-  - key: docker_config.Labels['com.ansible.os.family'] | default('all')
+  - key: docker_config.Labels['com.ansible.os.family'] | default('all', true)
 
 filters:
   - include: "'com.ansible.inventory.group' in docker_config.Labels"

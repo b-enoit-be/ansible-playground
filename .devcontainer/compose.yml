@@ -1,15 +1,9 @@
-name: ansible
+name: ansible-playground
 services:
   control-node:
     image: benoitbe/ansible-control-node
-    build:
-      dockerfile: control.node.dockerfile
-    command: /bin/sh -c "while sleep 100000; do :; done"
-    group_add:
-      - root
-    env_file:
-      - path: ../.env
-        required: false
+    build: controller
+    command: sleep infinity
     volumes:
       - ..:/usr/local/ansible:cached
       - public_ssh_key:/usr/local/share/.ssh
@@ -19,8 +13,7 @@ services:
 
   managed-node-alpine:
     image: benoitbe/managed-node-alpine
-    build:
-      dockerfile: managed.node.dockerfile
+    build: managed
     volumes:
       - public_ssh_key:/usr/local/share/.ssh:nocopy
     deploy:
