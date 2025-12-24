@@ -6,7 +6,7 @@ verbose_output: true
 
 compose:
   ansible_ssh_host: docker_name[1:]
-  ansible_ssh_port: 22
+  ansible_ssh_port: '22'
   ansible_connection: >-
     'ssh'
       if docker_config.Labels['com.ansible.inventory.group'] == 'nodes'
